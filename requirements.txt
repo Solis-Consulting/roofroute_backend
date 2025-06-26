@@ -3,4 +3,5 @@ geopandas
 shapely
 fiona
 pyproj
-werkzeuggunicorn
+werkzeug
+gunicorn
