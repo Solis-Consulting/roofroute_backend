@@ -1,0 +1,7 @@
+uploads/
+outputs/
+*.zip
+*.shp
+*.dbf
+*.shx
+*.DS_Store

@@ -1,0 +1,6 @@
+flask
+geopandas
+shapely
+fiona
+pyproj
+werkzeug
