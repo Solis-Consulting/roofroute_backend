@@ -39,12 +39,14 @@ def analyze():
         print(f"❌ No shapefile directory found for county: '{county}' → Path: {county_dir}")
         return jsonify({"error": f"No shapefiles found for county '{county}'"}), 404
 
-    shp_files = [f for f in os.listdir(county_dir) if f.endswith(".shp")]
-    if not shp_files:
-        print(f"❌ No .shp file found in {county_dir}")
-        return jsonify({"error": f"No .shp file found in {county_dir}"}), 500
+    # Static shapefile naming convention: nc_{county}_parcels_poly.shp
+    shp_filename = f"nc_{county}_parcels_poly.shp"
+    shp_path = os.path.join(county_dir, shp_filename)
 
-    shp_path = os.path.join(county_dir, shp_files[0])
+    if not os.path.exists(shp_path):
+        print(f"❌ Expected shapefile not found: {shp_path}")
+        return jsonify({"error": f"Shapefile '{shp_filename}' not found in {county_dir}"}), 500
+
     print(f"📦 Using shapefile: {shp_path}")
     try:
         parcel_gdf = gpd.read_file(shp_path)
