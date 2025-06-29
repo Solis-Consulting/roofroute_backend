@@ -68,12 +68,18 @@ def analyze():
 
     print(f"✅ Parcels intersected: {len(joined)}")
 
-    # Filtering
+
+# Filter: Remove corporate owners, invalid addresses, and buildings from 2000 onward or with year 0
     joined = joined[~joined['OWNNAME'].str.upper().str.contains(
-        "LLC|INC|CORP|TRUST|COMPANY|PROPERTIES|ENTERPRISE|INVESTMENTS|HOLDINGS", na=False)]
+    "LLC|INC|CORP|TRUST|COMPANY|PROPERTIES|ENTERPRISE|INVESTMENTS|HOLDINGS", na=False)]
     joined = joined[~joined['MAILADD'].astype(str).str.startswith("0 ")]
     joined['STRUCTYEAR'] = pd.to_numeric(joined['STRUCTYEAR'], errors='coerce')
-    joined = joined[joined['STRUCTYEAR'].notna() & (joined['STRUCTYEAR'] < 1995)]
+    joined = joined[
+    joined['STRUCTYEAR'].notna() &
+    (joined['STRUCTYEAR'] > 0) &
+    (joined['STRUCTYEAR'] < 2000)
+]
+
 
     # Convert to lat/lon
     joined = joined.to_crs(epsg=4326)
