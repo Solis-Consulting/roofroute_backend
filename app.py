@@ -80,7 +80,7 @@ def analyze():
     joined = joined[
     joined['STRUCTYEAR'].notna() &
     (joined['STRUCTYEAR'] > 0) &
-    (joined['STRUCTYEAR'] < 2000)
+    (joined['STRUCTYEAR'] < 2025)
 ]
 
 
